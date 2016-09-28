@@ -67,6 +67,12 @@ PLIST_SUB=	USER=${NEXUS_USER} \
 		LOGDIR=${NEXUS_LOGDIR} \
 		WORKDIR=${NEXUS_WORKDIR}
 
+# PATCH NOTES
+#   Several patches are necessary due to the following issues:
+#   * https://issues.sonatype.org/browse/NEXUS-10981
+#   * https://issues.sonatype.org/browse/NEXUS-10983
+#   * https://issues.sonatype.org/browse/NEXUS-10984
+
 post-extract:
 	@${MV} ${WRKSRC}/bin/jsw/conf/wrapper.conf ${WRKSRC}/conf
 .for dir in bin logs tmp
