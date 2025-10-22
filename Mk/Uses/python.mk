@@ -154,7 +154,10 @@
 #			  default: ${PYTHONBASE}/bin/${PYTHON_VERSION}
 #
 # PEP517_BUILD_CMD	- Command sequence for a PEP-517 build frontend that builds a wheel.
-#			  default: ${PYTHON_CMD} -m build --no-isolation --wheel ${PEP517_BUILD_CONFIG_SETTING}
+#			  default: ${PYTHON_CMD} -m build --no-isolation --wheel --outdir ${PEP517_BUILD_DISTDIR} ${PEP517_BUILD_CONFIG_SETTING}
+#
+# PEP517_BUILD_DISTDIR	- Location of the dist directory for wheels.
+#			  default: ${WRKDIR}/whl
 #
 # PEP517_BUILD_DEPEND	- Port needed to execute ${PEP517_BUILD_CMD}.
 #			  default: ${PYTHON_PKGNAMEPREFIX}build>=0:devel/py-build@${PY_FLAVOR}
@@ -164,7 +167,7 @@
 #			  default: <empty>
 #
 # PEP517_INSTALL_CMD	- Command sequence for a PEP-517 install frontend that installs a wheel.
-#			  default: ${PYTHON_CMD} -m installer --destdir ${STAGEDIR} --prefix ${PREFIX} ${BUILD_WRKSRC}/dist/${PORTNAME:C|[-_]+|_|g}-${DISTVERSION}*.whl
+#			  default: ${PYTHON_CMD} -m installer --destdir ${STAGEDIR} --prefix ${PREFIX} ${PEP517_BUILD_DISTDIR}/${PORTNAME:C|[-_]+|_|g}-${DISTVERSION}*.whl
 #
 # PEP517_INSTALL_DEPEND	- Port needed to execute ${PEP517_INSTALL_CMD}.
 #			  default: ${PYTHON_PKGNAMEPREFIX}installer>=0:devel/py-installer@${PY_FLAVOR}
@@ -759,9 +762,10 @@ PYDISTUTILS_EGGINFO?=	${PYDISTUTILS_PKGNAME:C/[^A-Za-z0-9.]+/_/g}-${PYDISTUTILS_
 PYDISTUTILS_EGGINFODIR?=${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}
 
 # PEP-517 support
-PEP517_BUILD_CMD?=	${PYTHON_CMD} -m build --no-isolation --wheel ${PEP517_BUILD_CONFIG_SETTING}
+PEP517_BUILD_DISTDIR?=	${WRKDIR}/whl
+PEP517_BUILD_CMD?=	${PYTHON_CMD} -m build --no-isolation --wheel --outdir ${PEP517_BUILD_DISTDIR} ${PEP517_BUILD_CONFIG_SETTING}
 PEP517_BUILD_DEPEND?=	${PYTHON_PKGNAMEPREFIX}build>=0:devel/py-build@${PY_FLAVOR}
-PEP517_INSTALL_CMD?=	${PYTHON_CMD} -m installer --destdir ${STAGEDIR} --prefix ${PREFIX} ${BUILD_WRKSRC}/dist/${PORTNAME:C|[-_]+|_|g}-${DISTVERSION}*.whl
+PEP517_INSTALL_CMD?=	${PYTHON_CMD} -m installer --destdir ${STAGEDIR} --prefix ${PREFIX} ${PEP517_BUILD_DISTDIR}/${PORTNAME:C|[-_]+|_|g}-${DISTVERSION}*.whl
 PEP517_INSTALL_DEPEND?=	${PYTHON_PKGNAMEPREFIX}installer>=0:devel/py-installer@${PY_FLAVOR}
 
 # nose support
