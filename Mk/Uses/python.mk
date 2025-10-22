@@ -189,6 +189,14 @@
 #			- Pass this command to distutils on build stage.
 #			  default: build
 #
+# PYDISTUTILS_BUILD_WHEEL
+#			- Define to build wheel with distutils on build wheel stage.
+#			  default: <not defined>
+#
+# PYDISTUTILS_BUILD_WHEEL_TARGET
+#			- Pass this command to distutils on build wheel stage.
+#			  default: bdist_wheel
+#
 # PYDISTUTILS_INSTALL_TARGET
 #			- Pass this command to distutils on install stage.
 #			  default: install
@@ -199,6 +207,10 @@
 #
 # PYDISTUTILS_BUILDARGS
 #			- Arguments to build with distutils.
+#			  default: <empty>
+#
+# PYDISTUTILS_BUILDWHEELARGS
+#			- Arguments to build wheel with distutils.
 #			  default: <empty>
 #
 # PYDISTUTILS_INSTALLARGS
@@ -710,13 +722,17 @@ _CURRENTPORT:=	${PKGNAMEPREFIX}${PORTNAME}${PKGNAMESUFFIX}
 .  if defined(_PYTHON_FEATURE_DISTUTILS) && \
 	${_CURRENTPORT} != ${PYTHON_PKGNAMEPREFIX}setuptools && \
 	${_CURRENTPORT} != ${PYTHON_PKGNAMEPREFIX}setuptools58 && \
-	${_CURRENTPORT} != ${PYTHON_PKGNAMEPREFIX}setuptools44
+	${_CURRENTPORT} != ${PYTHON_PKGNAMEPREFIX}setuptools44 && \
+	${_CURRENTPORT} != ${PYTHON_PKGNAMEPREFIX}wheel044
 .    if ${PYTHON_VER} == 2.7
 BUILD_DEPENDS+=		${PYTHON_PKGNAMEPREFIX}setuptools44>0:devel/py-setuptools44@${PY_FLAVOR}
 RUN_DEPENDS+=		${PYTHON_PKGNAMEPREFIX}setuptools44>0:devel/py-setuptools44@${PY_FLAVOR}
 .    else
 DEV_WARNING+=		"USE_PYTHON=distutils is deprecated, setup.py as a command line tool is deprecated and the ability to use it as such will be removed in a future setuptools. As setup.py is still a valid configuration file for setuptools, please migrate to USE_PYTHON=pep517 with setuptools in BUILD_DEPENDS."
 BUILD_DEPENDS+=		${PYTHON_PKGNAMEPREFIX}setuptools>=63.1.0:devel/py-setuptools@${PY_FLAVOR}
+.      if defined(PYDISTUTILS_BUILD_WHEEL)
+BUILD_DEPENDS+=		${PYTHON_PKGNAMEPREFIX}wheel044>=0:devel/py-wheel044@${PY_FLAVOR}
+.      endif
 .    endif
 .  endif
 
@@ -743,6 +759,7 @@ PYDISTUTILS_SETUP?=	-c \
 	exec(compile(open(__file__, 'rb').read().replace(b'\\r\\n', b'\\n'), __file__, 'exec'))"
 PYDISTUTILS_CONFIGUREARGS?=	# empty
 PYDISTUTILS_BUILDARGS?=		# empty
+PYDISTUTILS_BUILDWHEELARGS?=	# empty
 PYDISTUTILS_INSTALLARGS?=	-c -O1 --prefix=${PREFIX}
 .  if defined(_PYTHON_FEATURE_DISTUTILS)
 .    if !defined(PYDISTUTILS_INSTALLNOSINGLE)
@@ -949,6 +966,7 @@ _INCLUDE_USES_PYTHON_POST_MK=	yes
 # py-distutils support
 PYDISTUTILS_CONFIGURE_TARGET?=	config
 PYDISTUTILS_BUILD_TARGET?=	build
+PYDISTUTILS_BUILD_WHEEL_TARGET?=	bdist_wheel
 PYDISTUTILS_INSTALL_TARGET?=	install
 
 .  if defined(_PYTHON_FEATURE_DISTUTILS)
@@ -963,6 +981,9 @@ do-configure:
 .    if !target(do-build)
 do-build:
 	@(cd ${BUILD_WRKSRC}; ${SETENVI} ${WRK_ENV} ${MAKE_ENV} ${PYTHON_CMD} ${PYDISTUTILS_SETUP} ${PYDISTUTILS_BUILD_TARGET} ${PYDISTUTILS_BUILDARGS})
+.      if defined(PYDISTUTILS_BUILD_WHEEL)
+	@(cd ${BUILD_WRKSRC}; ${SETENVI} ${WRK_ENV} ${MAKE_ENV} ${PYTHON_CMD} ${PYDISTUTILS_SETUP} ${PYDISTUTILS_BUILD_WHEEL_TARGET} ${PYDISTUTILS_BUILDWHEELARGS})
+.      endif
 .    endif
 
 .    if !target(do-install)
