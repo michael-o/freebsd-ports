@@ -1,6 +1,6 @@
 PORTNAME=	dbt-extractor
 DISTVERSION=	0.6.0
-PORTREVISION=	3
+PORTREVISION=	4
 CATEGORIES=	devel python
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -27,9 +27,7 @@ post-extract:
 	${LN} -s ${WRKDIR}/tree-sitter-jinja2-*/ ${WRKSRC}/tree-sitter-dbt-jinja
 
 pre-build:
-	cd ${WRKSRC} && maturin build -f
-	${MKDIR} ${WRKSRC}/dist
-	${CP} ${WRKSRC}/target/wheels/${DISTNAME}-*freebsd*.whl ${WRKSRC}/dist/
+	cd ${WRKSRC} && maturin build -f -o ${PEP517_BUILD_DISTDIR}
 
 do-test:
 	@(cd ${TEST_WRKSRC} && ${SETENV} ${TEST_ENV} PYO3_PYTHON=${PYTHON_CMD} ${CARGO} test)

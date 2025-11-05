@@ -1,6 +1,7 @@
 PORTNAME=	pytorch
 DISTVERSIONPREFIX=	v
 DISTVERSION=	2.13.0
+PORTREVISION=	1
 CATEGORIES=	misc # machine-learning
 MASTER_SITES=	https://github.com/pytorch/pytorch/releases/download/v${DISTVERSION}/
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -63,7 +64,7 @@ USE_LDCONFIG=	${PYTHON_SITELIBDIR}/torch/lib
 
 # The Python package is named "torch" not "pytorch"
 PYDISTUTILS_PKGNAME=	torch
-PEP517_INSTALL_CMD=	${PYTHON_CMD} -m installer --destdir ${STAGEDIR} --prefix ${PREFIX} ${BUILD_WRKSRC}/dist/torch-${DISTVERSION}*.whl
+PEP517_INSTALL_CMD=	${PYTHON_CMD} -m installer --destdir ${STAGEDIR} --prefix ${PREFIX} ${PEP517_BUILD_DISTDIR}/torch-${DISTVERSION}*.whl
 
 USE_GITHUB=	nodefault
 GH_TUPLE=	pytorch:cpuinfo:bc3c01e:cpuinfo/cpuinfo-with-freebsd-support # https://github.com/pytorch/cpuinfo/pull/230/commits

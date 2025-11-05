@@ -1,5 +1,6 @@
 PORTNAME=	Jinja2
 DISTVERSION=	3.1.6
+PORTREVISION=	1
 CATEGORIES=	devel python
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -24,7 +25,7 @@ CPE_PRODUCT=	jinja
 USE_PYTHON=	autoplist pep517 pytest # 23 tests fail, see https://github.com/pallets/jinja/issues/1757
 PEP517_INSTALL_CMD=	${PYTHON_CMD} -m installer --destdir ${STAGEDIR} \
 			--prefix ${PREFIX} \
-			${BUILD_WRKSRC}/dist/${PYWHEEL_NAME}-${DISTVERSION}*.whl
+			${PEP517_BUILD_DISTDIR}/${PYWHEEL_NAME}-${DISTVERSION}*.whl
 .endif
 .if ${PKGNAMESUFFIX} == -doc
 USES=		gmake python

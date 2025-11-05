@@ -1,5 +1,6 @@
 PORTNAME=	beautifulsoup
 PORTVERSION=	4.15.0
+PORTREVISION=	1
 CATEGORIES=	www python
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -26,10 +27,10 @@ NO_ARCH=	yes
 PLIST_SUB=	BS_VER=${PORTVERSION}
 
 do-build:
-	@cd ${BUILD_WRKSRC} && ${SETENV} ${MAKE_ENV} ${PYTHON_CMD} -m build --wheel --no-isolation --outdir ${WRKDIR}
+	@cd ${BUILD_WRKSRC} && ${SETENV} ${MAKE_ENV} ${PYTHON_CMD} -m build --wheel --no-isolation --outdir ${PEP517_BUILD_DISTDIR}
 
 do-install:
-	@cd ${INSTALL_WRKSRC} && ${SETENV} ${MAKE_ENV} ${PYTHON_CMD} -m installer ${WRKDIR}/*.whl --destdir ${STAGEDIR}
+	@cd ${INSTALL_WRKSRC} && ${SETENV} ${MAKE_ENV} ${PYTHON_CMD} -m installer ${PEP517_BUILD_DISTDIR}/*.whl --destdir ${STAGEDIR}
 
 do-test:
 	@cd ${WRKSRC} && ${SETENV} ${TEST_ENV} ${PYTHON_CMD} -m pytest bs4

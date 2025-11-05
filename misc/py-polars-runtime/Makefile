@@ -1,6 +1,7 @@
 PORTNAME=	polars-runtime
 DISTVERSIONPREFIX=	py-
 DISTVERSION=	1.43.1
+PORTREVISION=	1
 CATEGORIES=	misc
 #MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -35,7 +36,7 @@ GH_PROJECT=	polars
 RUSTFLAGS=	--cfg allocator=\"default\" # other choices are "default" and "jemalloc" (jemalloc is broken due to the conflict with system allocator)
 MAKE_ENV+=	RUSTFLAGS="${RUSTFLAGS}" # pass RUSTFLAGS to rustc via python's "build" module and maturin
 
-PEP517_INSTALL_CMD=	${PYTHON_CMD} -m installer --destdir ${STAGEDIR} --prefix ${PREFIX} ${BUILD_WRKSRC}/dist/${PORTNAME:C|[-_]+|_|g}_${FLAVOR}-${DISTVERSION}*.whl
+PEP517_INSTALL_CMD=	${PYTHON_CMD} -m installer --destdir ${STAGEDIR} --prefix ${PREFIX} ${PEP517_BUILD_DISTDIR}/${PORTNAME:C|[-_]+|_|g}_${FLAVOR}-${DISTVERSION}*.whl
 
 CARGO_BUILDDEP=	no
 CARGO_CRATES=	adler2-2.0.1 \
@@ -592,9 +593,9 @@ PLIST_SUB+=	FLAVOR=${FLAVOR} \
 do-build:
 	# build
 	@cd ${WRKSRC}/py-polars && \
-		${SETENV} ${MAKE_ENV} maturin build -o dist --release --locked --strip --manifest-path runtime/polars-runtime-${FLAVOR}/Cargo.toml
+		${SETENV} ${MAKE_ENV} maturin build -o ${PEP517_BUILD_DISTDIR} --release --locked --strip --manifest-path runtime/polars-runtime-${FLAVOR}/Cargo.toml
 	# adjust wheel name
-	@cd ${WRKSRC}/py-polars/dist && \
+	@cd ${PEP517_BUILD_DISTDIR} && \
 		${LN} -s `ls *.whl` `ls *.whl | ${SED} -e "s/_${FLAVOR}//"`
 
 do-install:

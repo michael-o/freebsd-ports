@@ -1,6 +1,6 @@
 PORTNAME=	wxpython
 DISTVERSION=	4.2.5
-PORTREVISION=	2
+PORTREVISION=	3
 CATEGORIES=	x11-toolkits python
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -39,7 +39,7 @@ USE_PYQT=	sip:build sip:test
 USE_PYTHON=	autoplist cython pep517 pytest
 
 # https://github.com/wxWidgets/Phoenix/issues/2819
-PEP517_BUILD_CMD=	${LOCALBASE}/bin/pyproject-build-${PYTHON_VER} --no-isolation --wheel ${PEP517_BUILD_CONFIG_SETTING}
+PEP517_BUILD_CMD=	${LOCALBASE}/bin/pyproject-build-${PYTHON_VER} --no-isolation --outdir ${PEP517_BUILD_DISTDIR} --wheel ${PEP517_BUILD_CONFIG_SETTING}
 
 OPTIONS_DEFINE=		NLS
 

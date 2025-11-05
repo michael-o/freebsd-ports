@@ -1,5 +1,6 @@
 PORTNAME=	flufl.lock
 DISTVERSION=	9.0.0
+PORTREVISION=	1
 CATEGORIES=	devel python
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -27,7 +28,7 @@ NO_ARCH=	yes
 # https://packaging.python.org/en/latest/specifications/name-normalization/
 # https://packaging.python.org/en/latest/specifications/binary-distribution-format/#escaping-and-unicode
 PEP517_INSTALL_CMD=	${PYTHON_CMD} -m installer --destdir ${STAGEDIR} --prefix ${PREFIX} \
-		${BUILD_WRKSRC}/dist/${PORTNAME:tl:C|[-_.]+|_|g}-${DISTVERSION}*.whl && \
+		${PEP517_BUILD_DISTDIR}/${PORTNAME:tl:C|[-_.]+|_|g}-${DISTVERSION}*.whl && \
 		${CP} ${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}/flufl_lock-${DISTVERSION}.dist-info/RECORD \
 		${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}/flufl.lock-${DISTVERSION}.dist-info/RECORD
 

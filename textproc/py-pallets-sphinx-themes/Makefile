@@ -1,5 +1,6 @@
 PORTNAME=	Pallets-Sphinx-Themes
 DISTVERSION=	2.5.0
+PORTREVISION=	1
 CATEGORIES=	textproc python
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -21,7 +22,7 @@ USES=		python
 USE_PYTHON=	autoplist concurrent pep517
 PEP517_INSTALL_CMD=	${PYTHON_CMD} -m installer --destdir ${STAGEDIR} \
 			--prefix ${PREFIX} \
-			${BUILD_WRKSRC}/dist/${PORTNAME:C|[-_]+|_|g:tl}-${DISTVERSION}*.whl
+			${PEP517_BUILD_DISTDIR}/${PORTNAME:C|[-_]+|_|g:tl}-${DISTVERSION}*.whl
 
 NO_ARCH=	yes
 

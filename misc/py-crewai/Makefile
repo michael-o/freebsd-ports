@@ -1,5 +1,6 @@
 PORTNAME=	crewai
 PORTVERSION=	1.15.7
+PORTREVISION=	1
 CATEGORIES=	misc python
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -56,7 +57,7 @@ NO_ARCH=	yes
 # byte-compiled during staging.
 PEP517_INSTALL_CMD=	${PYTHON_CMD} -m installer --no-compile-bytecode \
 			--destdir ${STAGEDIR} --prefix ${PREFIX} \
-			${BUILD_WRKSRC}/dist/${PORTNAME:C|[-_]+|_|g}-${DISTVERSION}*.whl
+			${PEP517_BUILD_DISTDIR}/${PORTNAME:C|[-_]+|_|g}-${DISTVERSION}*.whl
 
 TEST_ENV=	${MAKE_ENV} PYTHONPATH=${STAGEDIR}${PYTHONPREFIX_SITELIBDIR} CREWAI_TESTING=true
 TEST_WRKSRC=	${WRKSRC}/tests

@@ -1,5 +1,6 @@
 PORTNAME=	coherent.licensed
 DISTVERSION=	0.5.2
+PORTREVISION=	1
 CATEGORIES=	devel
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -20,7 +21,7 @@ USE_PYTHON=	autoplist pep517
 # https://packaging.python.org/en/latest/specifications/name-normalization/
 # https://packaging.python.org/en/latest/specifications/binary-distribution-format/#escaping-and-unicode
 PEP517_INSTALL_CMD=	${PYTHON_CMD} -m installer --destdir ${STAGEDIR} --prefix ${PREFIX} \
-  		${BUILD_WRKSRC}/dist/${PORTNAME:tl:C|[-_.]+|_|g}-${DISTVERSION}*.whl
+		${PEP517_BUILD_DISTDIR}/${PORTNAME:tl:C|[-_.]+|_|g}-${DISTVERSION}*.whl
 
 NO_ARCH=	yes
 

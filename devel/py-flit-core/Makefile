@@ -1,5 +1,6 @@
 PORTNAME=	flit-core
 PORTVERSION=	3.12.0
+PORTREVISION=	1
 CATEGORIES=	devel python
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -20,9 +21,9 @@ USE_PYTHON=	allflavors autoplist concurrent pep517 pytest
 
 NO_ARCH=	yes
 
-PEP517_BUILD_CMD=	${PYTHON_CMD} -m flit_core.wheel
+PEP517_BUILD_CMD=	${PYTHON_CMD} -m flit_core.wheel --outdir ${PEP517_BUILD_DISTDIR}
 PEP517_BUILD_DEPEND=	# empty
-PEP517_INSTALL_CMD=	${PYTHON_CMD} ${WRKSRC}/bootstrap_install.py --installdir ${STAGEDIR}${PYTHONPREFIX_SITELIBDIR} ${WRKSRC}/dist/${DISTNAME}*.whl
+PEP517_INSTALL_CMD=	${PYTHON_CMD} ${WRKSRC}/bootstrap_install.py --installdir ${STAGEDIR}${PYTHONPREFIX_SITELIBDIR} ${PEP517_BUILD_DISTDIR}/${DISTNAME}*.whl
 PEP517_INSTALL_DEPEND=	# empty
 
 post-install:

@@ -1,5 +1,6 @@
 PORTNAME=	iam-expand
 DISTVERSION=	0.3.0
+PORTREVISION=	1
 CATEGORIES=	security python
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -24,7 +25,7 @@ do-install:
 	@${MKDIR} ${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}
 	@cd ${INSTALL_WRKSRC} && ${SETENVI} ${WRK_ENV} ${MAKE_ENV} \
 		${PYTHON_CMD} -m installer --destdir ${STAGEDIR} --prefix ${PREFIX} \
-		${BUILD_WRKSRC}/dist/py_iam_expand-${DISTVERSION}*.whl
+		${PEP517_BUILD_DISTDIR}/py_iam_expand-${DISTVERSION}*.whl
 	@${PYTHON_CMD} -B ${PORTSDIR}/Mk/Scripts/strip_RECORD.py \
 		${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}/py_iam_expand-${DISTVERSION}*.dist-info/RECORD >> ${_PYTHONPKGLIST}
 	@${REINPLACE_CMD} \

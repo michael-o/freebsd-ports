@@ -1,5 +1,6 @@
 PORTNAME=	crewai-cli
 PORTVERSION=	1.15.7
+PORTREVISION=	1
 CATEGORIES=	misc python
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -41,7 +42,7 @@ NO_ARCH=	yes
 # Template files contain Jinja syntax and cannot be byte-compiled.
 PEP517_INSTALL_CMD=	${PYTHON_CMD} -m installer --no-compile-bytecode \
 			--destdir ${STAGEDIR} --prefix ${PREFIX} \
-			${BUILD_WRKSRC}/dist/${PORTNAME:C|[-_]+|_|g}-${DISTVERSION}*.whl
+			${PEP517_BUILD_DISTDIR}/${PORTNAME:C|[-_]+|_|g}-${DISTVERSION}*.whl
 
 TEST_ENV=	${MAKE_ENV} PYTHONPATH=${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}
 TEST_WRKSRC=	${WRKSRC}/tests

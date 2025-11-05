@@ -1,6 +1,6 @@
 PORTNAME=       biscuit-auth
 DISTVERSION=    0.4.0
-PORTREVISION=	2
+PORTREVISION=	3
 CATEGORIES=     security python
 PKGNAMEPREFIX=  ${PYTHON_PKGNAMEPREFIX}
 
@@ -34,11 +34,10 @@ BINARY_ALIAS=   python3=${PYTHON_CMD}
 do-build:
 	cd ${WRKSRC} && \
 		${SETENV} ${MAKE_ENV} \
-		${PYTHON_CMD} -m maturin build --release --strip --interpreter ${PYTHON_CMD}
+		${PYTHON_CMD} -m maturin build -o ${PEP517_BUILD_DISTDIR} --release --strip --interpreter ${PYTHON_CMD}
 
 do-install:
-	cd ${WRKDIR}/target/wheels && \
-		${PYTHON_CMD} -m installer --destdir=${STAGEDIR} --prefix=${PREFIX} *.whl
+	${PYTHON_CMD} -m installer --destdir=${STAGEDIR} --prefix=${PREFIX} ${PEP517_BUILD_DISTDIR}/*.whl
 
 .include "${.CURDIR}/Makefile.crates"
 .include <bsd.port.mk>

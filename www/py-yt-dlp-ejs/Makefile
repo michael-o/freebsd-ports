@@ -1,5 +1,6 @@
 PORTNAME=	yt-dlp-ejs
 DISTVERSION=	0.8.0
+PORTREVISION=	1
 CATEGORIES=	www
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -81,7 +82,7 @@ do-build:
 	fi
 	# Build Python wheel
 	@cd ${WRKSRC} && \
-		${SETENV} ${MAKE_ENV} ${PYTHON_CMD} -m build --no-isolation --wheel --outdir ${WRKSRC}/dist
+		${SETENV} ${MAKE_ENV} ${PYTHON_CMD} -m build --no-isolation --wheel --outdir ${PEP517_BUILD_DISTDIR}
 
 pre-test:
 	# Copy built JavaScript files to test location
