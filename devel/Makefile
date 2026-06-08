@@ -664,6 +664,7 @@
     SUBDIR += eclipse-titan
     SUBDIR += edi
     SUBDIR += editline
+    SUBDIR += edk2-tools
     SUBDIR += efivar
     SUBDIR += efl
     SUBDIR += egypt

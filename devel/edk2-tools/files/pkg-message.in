@@ -1,0 +1,13 @@
+[
+  { type: install
+    message: <<EOM
+This package provides EDK2's Python modules, but does not register them in
+system site to avoid conflicts. If you wish to use the Python modules in your
+scripts set the PYTHONPATH environment variable to include the script directory:
+$ export PYTHONPATH="%%PREFIX%%/libexec/%%PORTNAME%%/Python:$PYTHONPATH"
+
+Only do this for scripts that require these modules!
+Do not add this to your user profile or shell rc!
+EOM
+  }
+]
