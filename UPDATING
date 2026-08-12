@@ -5,6 +5,14 @@ they are unavoidable.
 You should get into the habit of checking this file for changes each time
 you update your ports collection, before attempting any port upgrades.
 
+20260906:
+  AFFECTS: users of net/py-kombu
+  AUTHOR: michaelo@FreeBSD.org
+
+  * The option ZMQ has been dropped due to removed upstream support.
+  * The option BOTO has been renamed to SQS since it used multiple dependencies
+    to connect to Amazon SQS.
+
 20260905:
   AFFECTS: users of www/pocketbase
   AUTHOR: nxjoseph@FreeBSD.org
