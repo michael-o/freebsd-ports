@@ -1535,7 +1535,7 @@
     SUBDIR += py-azure-common
     SUBDIR += py-baize
     SUBDIR += py-beaker
-    SUBDIR += py-beautifulsoup
+    SUBDIR += py-beautifulsoup4
     SUBDIR += py-betamax
     SUBDIR += py-binarycookies
     SUBDIR += py-biscuits
