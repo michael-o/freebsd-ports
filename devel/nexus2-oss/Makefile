@@ -13,6 +13,8 @@ WWW=		https://www.sonatype.com/products/repository-oss
 
 LICENSE=	EPL
 
+PORTSCOUT=	limit:^2\.
+
 PATCH_DEPENDS=	zip:archivers/zip
 RUN_DEPENDS=	javaservicewrapper:sysutils/javaservicewrapper
 
