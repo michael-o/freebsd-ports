@@ -1,5 +1,6 @@
 PORTNAME=	docling
 DISTVERSION=	2.115.0
+PORTREVISION=	1
 CATEGORIES=	textproc python
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
@@ -12,7 +13,7 @@ LICENSE=	MIT
 
 BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}hatchling>0:devel/py-hatchling@${PY_FLAVOR}
 RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}accelerate>=1.0.0:misc/py-accelerate@${PY_FLAVOR} \
-		${PYTHON_PKGNAMEPREFIX}beautifulsoup>=4.12.3:www/py-beautifulsoup@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}beautifulsoup4>=4.12.3:www/py-beautifulsoup4@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}certifi>=2024.7.4:security/py-certifi@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}defusedxml>=0.7.1:devel/py-defusedxml@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}docling-core>=2.86.0:textproc/py-docling-core@${PY_FLAVOR} \
