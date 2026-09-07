@@ -34,11 +34,10 @@ EOM
 },
 {
   type: upgrade
-  maximum_version: "2.15.1_1"
+  maximum_version: "2.15.2_1"
   message: <<EOM
-With the upgrade to javaservicewrapper-3.6.3 Nexus won't start unless you
-remove all properties ending with '.stripquotes' in your
-%%ETCDIR%%/wrapper.conf.
+With the upgrade to javaservicewrapper-3.7.3 Nexus won't start unless you
+review properties in your %%ETCDIR%%/wrapper.conf.
 EOM
 },
 { type: remove
