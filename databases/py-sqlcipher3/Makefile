@@ -8,13 +8,16 @@ MAINTAINER=	yuri@FreeBSD.org
 COMMENT=	Python 3 bindings for SQLCipher
 WWW=		https://github.com/coleifer/sqlcipher3
 
-LICENSE=	BSD3CLAUSE
+LICENSE=	ZLIB
 LICENSE_FILE=	${WRKSRC}/LICENSE
+
+BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}setuptools>=63.0:devel/py-setuptools@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}wheel>=0:devel/py-wheel@${PY_FLAVOR}
 
 LIB_DEPENDS=	libsqlcipher.so:databases/sqlcipher
 
 USES=		localbase python ssl
-USE_PYTHON=	distutils autoplist
+USE_PYTHON=	autoplist pep517
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	coleifer
