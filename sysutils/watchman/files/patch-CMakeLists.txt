@@ -1,0 +1,62 @@
+--- CMakeLists.txt.orig
++++ CMakeLists.txt
+@@ -369,13 +369,17 @@
+ find_package(fmt CONFIG REQUIRED)
+ find_package(folly CONFIG REQUIRED)
+ 
++# fizz/wangle/FBThrift/fb303 are needed unconditionally: third_party_deps
++# links fb303::fb303 directly, and edencommon::edencommon_telemetry pulls
++# in FBThrift::thriftcpp2 transitively, regardless of ENABLE_EDEN_SUPPORT.
++# Only cpptoml is actually eden-support-specific.
++find_package(fizz CONFIG REQUIRED)
++find_package(wangle CONFIG REQUIRED)
++find_package(FBThrift CONFIG REQUIRED)
++find_package(fb303 CONFIG REQUIRED)
++include_directories(${FB303_INCLUDE_DIR})
+ if (ENABLE_EDEN_SUPPORT)
+-  find_package(fizz CONFIG REQUIRED)
+-  find_package(wangle CONFIG REQUIRED)
+-  find_package(FBThrift CONFIG REQUIRED)
+-  find_package(fb303 CONFIG REQUIRED)
+   find_package(cpptoml CONFIG REQUIRED)
+-  include_directories(${FB303_INCLUDE_DIR})
+ endif()
+ if(DEFINED ENV{NODE_BIN})
+   set(NODE $ENV{NODE_BIN})
+@@ -413,7 +417,10 @@
+ endif()
+ 
+ 
+-if(Python3_Development_FOUND)
++# pywatchman is packaged separately as sysutils/py-pywatchman; building
++# it here too would be redundant and needs setuptools, which this port
++# does not depend on.
++if(FALSE)
+   set(PYOUT "${CMAKE_CURRENT_BINARY_DIR}/pywatchman")
+   set(SETUP_PY "${CMAKE_CURRENT_SOURCE_DIR}/watchman/python/setup.py")
+   set(PYWATCHMAN_BASE ${CMAKE_CURRENT_SOURCE_DIR}/watchman/python)
+@@ -557,6 +564,7 @@
+ watchman/ChildProcess.cpp
+ watchman/fs/FileDescriptor.cpp
+ watchman/fs/FileInformation.cpp
++watchman/fs/FileSystem.cpp
+ watchman/fs/FSDetect.cpp
+ watchman/FlagMap.cpp
+ watchman/IgnoreSet.cpp
+@@ -764,8 +772,6 @@
+ 
+ install(TARGETS watchman RUNTIME DESTINATION bin)
+ 
+-add_subdirectory(watchman/cli)
+-
+ set(tests)
+ # Helper function to define a unit test executable
+ function(t_test NAME)
+@@ -806,6 +812,7 @@
+ t_test(bser watchman/test/BserTest.cpp)
+ t_test(cache watchman/test/CacheTest.cpp)
+ t_test(childproc watchman/test/ChildProcTest.cpp)
++t_test(filedescriptor watchman/test/FileDescriptorTest.cpp)
+ t_test(fsdetect watchman/test/FSDetectTest.cpp)
+ t_test(ignore watchman/test/BserTest.cpp)
+ # Linking this test needs the targets graph to be cleaned up.

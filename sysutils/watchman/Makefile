@@ -1,52 +1,64 @@
 PORTNAME=	watchman
-# frozen at 4.7.0, it is the last version not to use F_GETPATH which isn't
-# available on FreeBSD, see https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=198570
-PORTVERSION=	4.7.0
-PORTEPOCH=	1
 DISTVERSIONPREFIX=	v
+DISTVERSION=	2026.10.05.00
 CATEGORIES=	sysutils
 
 MAINTAINER=	yuri@FreeBSD.org
 COMMENT=	File alteration monitoring service
 WWW=		https://facebook.github.io/watchman/
 
-LICENSE=	APACHE20
+LICENSE=	MIT
+LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	${LOCALBASE}/include/sys/inotify.h:devel/libinotify
+BUILD_DEPENDS=	googletest>0:devel/googletest
+LIB_DEPENDS=	libboost_context.so:devel/boost-libs \
+		libboost_filesystem.so:devel/boost-libs \
+		libboost_program_options.so:devel/boost-libs \
+		libboost_regex.so:devel/boost-libs \
+		libbzip2.so:misc/vxl \
+		libedencommon_utils.so:devel/edencommon \
+		libevent.so:devel/libevent \
+		libfb303.so:net/fb303 \
+		libfizz.so:security/fizz \
+		libfmt.so:devel/libfmt \
+		libfolly.so:devel/folly \
+		libgflags.so:devel/gflags \
+		libglog.so:devel/glog \
+		liblz4.so:archivers/liblz4 \
+		libmvfst.so:net/mvfst \
+		libsnappy.so:archivers/snappy \
+		libsodium.so:security/libsodium \
+		libthriftcpp2.so:devel/fbthrift \
+		libunwind.so:devel/libunwind \
+		libwangle.so:net/wangle \
+		libxxhash.so:devel/xxhash \
+		libzstd.so:archivers/zstd
+
+USES=		cmake:testing compiler:c++20-lang ssl
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	facebook
 
-USES=		autoreconf gmake pkgconfig
-GNU_CONFIGURE=	yes
-CONFIGURE_ENV=	ac_cv_prog_HAVE_ARC=false ac_cv_header_sys_inotify_h=no
-CONFIGURE_ARGS=	--without-python --without-ruby # in separate ports
-TEST_TARGET=	check
+CMAKE_ARGS=	-DWATCHMAN_VERSION_OVERRIDE=${DISTVERSION} \
+		-DWATCHMAN_STATE_DIR=/var/run/${PORTNAME}
+CMAKE_OFF=	ENABLE_EDEN_SUPPORT
 
 PLIST_FILES=	bin/${PORTNAME} \
 		"@dir(,,2777) /var/run/${PORTNAME}"
-PORTDOCS=	README.markdown
 
 OPTIONS_DEFINE=	BACKTRACE PCRE DOCS
 OPTIONS_DEFAULT=BACKTRACE PCRE
 
 BACKTRACE_DESC=		Stack backtrace support via (lib)execinfo
-BACKTRACE_LIBS=		-lexecinfo
+BACKTRACE_LDFLAGS=	-lexecinfo
+DOCS_PLIST_FILES=	${DOCSDIR}/README.markdown
+PCRE_LIB_DEPENDS=	libpcre2-8.so:devel/pcre2
 
-PCRE_LIB_DEPENDS=	libpcre.so:devel/pcre
-PCRE_CONFIGURE_WITH=	pcre
+post-install:
+	@${MKDIR} ${STAGEDIR}/var/run/${PORTNAME}
 
-CPPFLAGS+=	-Wno-error
-
-PORTSCOUT=	ignore:1 # see PORTVERSION comment
-
-post-patch:
-# https://www.gnu.org/prep/standards/html_node/Directory-Variables.html
-	@${REINPLACE_CMD} -e 's,xprefix/var,localstatedir,' \
-		-e '\,/etc, { s//$$sysconfdir/; /=/s/^/eval /; }' \
-		${WRKSRC}/configure.ac
-	@${REINPLACE_CMD} -e '/^docdir = /d' \
-		-e '/not-empty/d; /chmod g+s/d;' \
-		${WRKSRC}/Makefile.am
+post-install-DOCS-on:
+	@${MKDIR} ${STAGEDIR}${DOCSDIR}
+	${INSTALL_DATA} ${WRKSRC}/README.markdown ${STAGEDIR}${DOCSDIR}
 
 .include <bsd.port.mk>
