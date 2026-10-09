@@ -1,0 +1,4 @@
+edencommon holds various utility libraries common between EdenFS and
+Watchman, as well as utilities for clients of EdenFS or Watchman. It
+covers process and path handling, telemetry, and test harness support
+shared by both projects.
