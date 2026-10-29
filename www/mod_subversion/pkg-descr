@@ -1,0 +1,3 @@
+Installs the mod_dav_svn, mod_authz_svn, and mod_dontdothat Apache
+HTTP Server modules for serving an Apache Subversion repository over
+HTTP/HTTPS.

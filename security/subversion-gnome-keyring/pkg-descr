@@ -1,7 +1,5 @@
-Subversion is a version control system designed to be as similar to cvs(1)
-as possible, while fixing many outstanding problems with cvs(1).
-
-This port adds Gnome Keyring support to Subversion.
+GNOME Keyring credential cache support for Apache Subversion, an
+enterprise-class centralized version control system.
 
 See https://wiki.freebsd.org/Ports/security/subversion-gnome-keyring for
 setup instructions.

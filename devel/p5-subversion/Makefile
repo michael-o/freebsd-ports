@@ -1,16 +1,14 @@
 PKGNAMEPREFIX=	p5-
 
 MAINTAINER=	michaelo@apache.org
-COMMENT=	Perl bindings for Version control system
+COMMENT=	Perl bindings for Apache Subversion
 WWW=		https://subversion.apache.org/
 
 USES=		perl5
 USE_PERL5=	build run
 
 PORTREVISION_LATEST=	0
-PORTREVISION_LTS=		0
-
-SVN_BUILD_BINDINGS=	yes
+PORTREVISION_LTS=		1
 
 MAKE_JOBS_UNSAFE=	yes
 
@@ -23,7 +21,8 @@ CONFIGURE_ARGS+=	--with-swig-perl=${PERL} \
 			--without-swig-ruby \
 			--without-gnome-keyring \
 			--without-kwallet \
-			--with-apxs=no
+			--with-apxs=no \
+			--disable-nls
 
 ALL_TARGET=	swig-pl-lib swig-pl
 INSTALL_TARGET=	install-swig-pl
@@ -39,5 +38,7 @@ post-install:
 	${STRIP_CMD} ${STAGEDIR}${PREFIX}/${SITE_ARCH_REL}/auto/SVN/_Ra/_Ra.so
 	${STRIP_CMD} ${STAGEDIR}${PREFIX}/${SITE_ARCH_REL}/auto/SVN/_Repos/_Repos.so
 	${STRIP_CMD} ${STAGEDIR}${PREFIX}/${SITE_ARCH_REL}/auto/SVN/_Wc/_Wc.so
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libsvn_swig_perl-1.so.0.0.0
+	${RM} ${STAGEDIR}${PREFIX}/lib/libsvn_swig_perl-1.a
 
 .include <bsd.port.post.mk>

@@ -2,22 +2,28 @@ WITH_SUBVERSION_VER?=	latest
 
 PKGDIR=			${.CURDIR}
 
+# only consumed by devel/subversion-lts/Makefile.common's pre-patch (the
+# latest branch regenerates build-outputs.mk live instead, see that port's
+# post-patch); keep until subversion-lts is retired
 SVN_BUILD_ADDONS=	yes
 
 .if ${WITH_SUBVERSION_VER} == latest
 CONFLICTS_BUILD+=	${PORTNAME}-lts-1.[0-9][0-9].[0-9]*
 PORTREVISION=		${PORTREVISION_LATEST:U0}
 PLIST_SUB+=		SVN="" SVNLTS="@comment "
-LIB_DEPENDS+=		libsvn_client-1.so:devel/subversion
+LIB_DEPENDS+=		libsvn_subr-1.so:devel/subversion
 OPTIONS_NAME=		devel_subversion
 MASTERDIR=		${.CURDIR}/../../devel/subversion
 .include		"${MASTERDIR}/Makefile.common"
 .elif ${WITH_SUBVERSION_VER} == LTS
+_SVN_NON_LTS_SUFFIX:=	${PKGNAMESUFFIX}
+DEPRECATED=		Deprecated, use the regular \
+				${PKGNAMEPREFIX}${PORTNAME}${_SVN_NON_LTS_SUFFIX} package instead
 PKGNAMESUFFIX:=		${PKGNAMESUFFIX}-lts
 CONFLICTS_BUILD+=	${PORTNAME}-1.[0-9][0-9].[0-9]*
 PORTREVISION=		${PORTREVISION_LTS:U0}
 PLIST_SUB+=		SVN="@comment " SVNLTS=""
-LIB_DEPENDS+=		libsvn_client-1.so:devel/subversion-lts
+LIB_DEPENDS+=		libsvn_subr-1.so:devel/subversion-lts
 OPTIONS_NAME=		devel_subversion-lts
 MASTERDIR=		${.CURDIR}/../../devel/subversion-lts
 .include		"${MASTERDIR}/Makefile.common"

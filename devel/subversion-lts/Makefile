@@ -7,6 +7,8 @@ WWW=		https://subversion.apache.org/
 
 CONFLICTS_INSTALL=	subversion
 
+DEPRECATED=	Upstream no longer maintains a separate LTS release line
+
 USE_RC_SUBR=	svnserve
 
 PORTDOCS=	BUGS CHANGES COMMITTERS INSTALL README
