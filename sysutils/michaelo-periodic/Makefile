@@ -22,6 +22,9 @@ PERIODIC_FILES=	etc/periodic/weekly/500.gitup \
 
 PLIST_FILES=	${PERIODIC_FILES}
 
+OPTIONS_DEFINE=	DOCS
+PORTDOCS=		README.md
+
 do-install:
 .for _dir in ${PERIODIC_FILES:H:u}
 	@${MKDIR} ${STAGEDIR}${PREFIX}/${_dir}
@@ -29,5 +32,9 @@ do-install:
 .for _file in ${PERIODIC_FILES}
 	${INSTALL_SCRIPT} ${WRKSRC}/${_file:C,^[^/]+/[^/]+/,,} ${STAGEDIR}${PREFIX}/${_file}
 .endfor
+
+do-install-DOCS-on:
+	@${MKDIR} ${STAGEDIR}${DOCSDIR}
+	${INSTALL_DATA} ${WRKSRC}/README.md ${STAGEDIR}${DOCSDIR}
 
 .include <bsd.port.mk>
