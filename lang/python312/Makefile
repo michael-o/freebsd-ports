@@ -36,7 +36,6 @@ CONFIGURE_ENV+=		OPT="" # Null out OPT to respect user CFLAGS and remove optimiz
 
 INSTALL_TARGET=		altinstall					# Don't want cloberring of unprefixed files
 
-TEST_TARGET=		buildbottest
 TEST_ARGS=		TESTOPTS=-j${MAKE_JOBS_NUMBER}
 
 MAKE_ARGS+=		COMPILEALL_OPTS=-j${MAKE_JOBS_NUMBER} \
@@ -49,7 +48,7 @@ PLIST_SUB=		ABI=${ABIFLAGS} \
 			DISTVERSION=${DISTVERSION} \
 			OSMAJOR=${OSVERSION:C/([0-9]*)[0-9]{5}/\1/}		# For plat-freebsd* in pkg-plist. https://bugs.python.org/issue19554
 
-OPTIONS_DEFINE=		DEBUG IPV6 LIBMPDEC LTO NLS PYMALLOC
+OPTIONS_DEFINE=		DEBUG IPV6 LIBMPDEC LTO NLS PYMALLOC TEST
 OPTIONS_DEFAULT=	LIBMPDEC LTO PYMALLOC
 OPTIONS_EXCLUDE_riscv64=	LTO
 OPTIONS_RADIO=		HASH
@@ -75,6 +74,8 @@ LIBMPDEC_LIB_DEPENDS=	libmpdec.so:math/mpdecimal
 
 LTO_CONFIGURE_ON=	--with-lto
 
+TEST_CONFIGURE_ENABLE=	test-modules
+
 # Use CPPFLAGS over CFLAGS due to -I ordering, causing elementtree and pyexpat
 # to break in Python 2.7, or preprocessor complaints in Python >= 3.3
 # Upstream Issue: https://bugs.python.org/issue6299
@@ -90,6 +91,10 @@ PYMALLOC_CONFIGURE_WITH=	pymalloc
 
 .if ${PORT_OPTIONS:MDEBUG}
 ABIFLAGS:=	d${ABIFLAGS}
+.endif
+
+.if ${PORT_OPTIONS:MTEST}
+TEST_TARGET=	buildbottest
 .endif
 
 .if !empty(ABIFLAGS)
